@@ -68,10 +68,10 @@ const server = http.createServer(async (req, res) => {
       const customToken = createCustomToken(user.uid);
       
       const redirectUrl = config.redirectUrl 
-        ? `${config.redirectUrl}?custom_token=${customToken}`
+        ? `${config.redirectUrl}?customToken=${customToken}`
         : null;
       
-      sendJson(res, 201, { uid: user.uid, customToken, redirectUrl });
+      sendJson(res, 302, { redirectUrl });
     } catch (err) {
       sendJson(res, 400, { error: err.message });
     }
@@ -94,7 +94,7 @@ const server = http.createServer(async (req, res) => {
         ? `${config.redirectUrl}?customToken=${customToken}`
         : null;
       
-      sendJson(res, 302, { redirectUrl });
+      sendJson(res, 302, {redirectUrl });
     } catch (err) {
       sendJson(res, 400, { error: err.message });
     }
