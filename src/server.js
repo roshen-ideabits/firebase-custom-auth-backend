@@ -66,12 +66,8 @@ const server = http.createServer(async (req, res) => {
 
       const user = await signUpWithEmail(email, password, displayName);
       const customToken = createCustomToken(user.uid);
-      
-      const redirectUrl = config.redirectUrl 
-        ? `${config.redirectUrl}?customToken=${customToken}`
-        : null;
-      
-      sendJson(res, 302, { redirectUrl });
+      const sessionUrl = `http://localhost:3000/api/v1/sessions?customToken=${encodeURIComponent(customToken)}`;
+      sendJson(res, 201, { uid: user.uid, customToken, sessionUrl });
     } catch (err) {
       sendJson(res, 400, { error: err.message });
     }
@@ -89,12 +85,8 @@ const server = http.createServer(async (req, res) => {
 
       const user = await signInWithEmail(email, password);
       const customToken = createCustomToken(user.uid);
-      
-      const redirectUrl = config.redirectUrl 
-        ? `${config.redirectUrl}?customToken=${customToken}`
-        : null;
-      
-      sendJson(res, 302, {redirectUrl });
+      const sessionUrl = `http://localhost:3000/api/v1/sessions?customToken=${encodeURIComponent(customToken)}`;
+      sendJson(res, 200, { uid: user.uid, customToken, sessionUrl });
     } catch (err) {
       sendJson(res, 400, { error: err.message });
     }
